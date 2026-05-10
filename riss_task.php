@@ -35,82 +35,20 @@ function sha_256($bytes)
     // Pirmų 8 pirminių skaičių (2, 3, ...) šaknies trupmeninės dalies 32 bitai
     // sqrt(2) = 1.41421356237... -> 0.41421356237... -> 0.0110101... -> hex 0x6a09...
     $h = [
-        0x6a09e667,
-        0xbb67ae85,
-        0x3c6ef372,
-        0xa54ff53a,
-        0x510e527f,
-        0x9b05688c,
-        0x1f83d9ab,
-        0x5be0cd19
+        0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+        0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     ];
     // Pirmų 64 pirminių skaičių (2, 3, ...) kūbinės šaknies trupmeninės dalies 32 bitai
     // Išesmės tas pats tik, kad su kūbine šaknimi
     $k = [
-        0x428a2f98,
-        0x71374491,
-        0xb5c0fbcf,
-        0xe9b5dba5,
-        0x3956c25b,
-        0x59f111f1,
-        0x923f82a4,
-        0xab1c5ed5,
-        0xd807aa98,
-        0x12835b01,
-        0x243185be,
-        0x550c7dc3,
-        0x72be5d74,
-        0x80deb1fe,
-        0x9bdc06a7,
-        0xc19bf174,
-        0xe49b69c1,
-        0xefbe4786,
-        0x0fc19dc6,
-        0x240ca1cc,
-        0x2de92c6f,
-        0x4a7484aa,
-        0x5cb0a9dc,
-        0x76f988da,
-        0x983e5152,
-        0xa831c66d,
-        0xb00327c8,
-        0xbf597fc7,
-        0xc6e00bf3,
-        0xd5a79147,
-        0x06ca6351,
-        0x14292967,
-        0x27b70a85,
-        0x2e1b2138,
-        0x4d2c6dfc,
-        0x53380d13,
-        0x650a7354,
-        0x766a0abb,
-        0x81c2c92e,
-        0x92722c85,
-        0xa2bfe8a1,
-        0xa81a664b,
-        0xc24b8b70,
-        0xc76c51a3,
-        0xd192e819,
-        0xd6990624,
-        0xf40e3585,
-        0x106aa070,
-        0x19a4c116,
-        0x1e376c08,
-        0x2748774c,
-        0x34b0bcb5,
-        0x391c0cb3,
-        0x4ed8aa4a,
-        0x5b9cca4f,
-        0x682e6ff3,
-        0x748f82ee,
-        0x78a5636f,
-        0x84c87814,
-        0x8cc70208,
-        0x90befffa,
-        0xa4506ceb,
-        0xbef9a3f7,
-        0xc67178f2
+        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+        0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74,0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+        0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+        0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351,0x14292967,
+        0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+        0xa2bfe8a1, 0xa81a664b, 0xc24b8b70,0xc76c51a3,0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+        0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
     ];
 
     // ilgis
@@ -121,13 +59,22 @@ function sha_256($bytes)
 
     // Toliau dedam nulius kol masyvo dydis bus = 56
     while ((count($bytes) % 64) != 56) {
+        // echo count($bytes) . " % " . "64 = " . (count($bytes) % 64) . "\n";
         $bytes[] = 0x00;
     }
 
     // Pridedam orginalu masyvo dydi į galą pvz. petras = 6 raides * 8 bytai = 48
     for ($i = 7; $i >= 0; $i--) {
+        // echo decbin($length) . " >> "  . $i * 8 . "\n";
+        // echo decbin(($length >> ($i * 8)) & 0xFF) . "\n";
         $bytes[] = ($length >> ($i * 8)) & 0xFF;
     }
+    // echo "\n";
+    // $len = count($bytes) * 8;
+
+    // for ($i = $len - 8; $i < $len; $i++) {
+    //     echo decbin($bytes[$i]) . "\n";
+    // }
 
     // išskaidom į 64 bytų (512 bitų) blokus kuriuos skaičiuosim individualiai
     $chunks = array_chunk($bytes, 64);
@@ -149,7 +96,7 @@ function sha_256($bytes)
                 ($chunk[$j + 2] << 8) |
                 $chunk[$j + 3];
             // echo "0x" . dechex($w[$i]) . "\n";
-            // echo str_pad(decbin($w[$i] & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
+            // echo str_pad(decbin($w[$i] & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
 
         }
 
@@ -162,8 +109,13 @@ function sha_256($bytes)
             $s1 = rotr($w[$i - 2], 17) ^ rotr($w[$i - 2], 19) ^ ($w[$i - 2] >> 10);
             // sudedam viską ir sulyginam kad butu 32 bitai
             $w[$i] = ($s1 + $w[$i - 7] + $s0 + $w[$i - 16]) & BIT_MASK;
-            // echo "$i - " . "0x" . dechex($w[$i]) . "\n";
-            // echo "$i - " . str_pad(decbin($w[$i] & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
+            // $val1 = $i - 7;
+            // $val2 = $i - 16;
+            // echo "$i - S1   " . str_pad(decbin($s1 & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
+            // echo "$i - W$val1   " . str_pad(decbin($w[$i - 7] & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
+            // echo "$i - S0   " . str_pad(decbin($s0 & BIT_MASK) , 32, '0', STR_PAD_LEFT) . "\n";
+            // echo "$i - W$val2   " . str_pad(decbin($w[$i - 16] & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
+            // echo "$i - W$i  " . str_pad(decbin($w[$i] & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
         }
 
         list($a, $b, $c, $d, $e, $f, $g, $h0) = $h;
@@ -183,11 +135,11 @@ function sha_256($bytes)
             // 1000 ^ 0101 -> 1101
             $ch = ($e & $f) ^ ((~$e) & $g);
             // if ($i == 1) {
-            //     echo "e  - " . str_pad(decbin($e & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
-            //     echo "f  - " . str_pad(decbin($f & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
-            //     echo "g  - " . str_pad(decbin($g & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "e  - " . str_pad(decbin($e & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "f  - " . str_pad(decbin($f & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "g  - " . str_pad(decbin($g & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
             //     echo str_repeat("-", 32) . "\n";
-            //     echo "ch - " . str_pad(decbin($ch & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "ch - " . str_pad(decbin($ch & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
             // }
             // sudedam viską  ir sulyginam
             $temp1 = ($h0 + $S1 + $ch + $k[$i] + $w[$i]) & BIT_MASK;
@@ -203,11 +155,11 @@ function sha_256($bytes)
             //                        1011
             $maj = ($a & $b) ^ ($a & $c) ^ ($b & $c);
             // if ($i == 1) {
-            //     echo "a   - " . str_pad(decbin($a & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
-            //     echo "b   - " . str_pad(decbin($b & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
-            //     echo "c   - " . str_pad(decbin($c & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "a   - " . str_pad(decbin($a & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "b   - " . str_pad(decbin($b & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "c   - " . str_pad(decbin($c & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
             //     echo str_repeat("-", 32) . "\n";
-            //     echo "maj - " . str_pad(decbin($maj & 0xFFFFFFFF), 32, '0', STR_PAD_LEFT) . "\n";
+            //     echo "maj - " . str_pad(decbin($maj & BIT_MASK), 32, '0', STR_PAD_LEFT) . "\n";
             // }
             // sudedam viska ir sulyginam
             $temp2 = ($S0 + $maj) & BIT_MASK;
