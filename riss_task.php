@@ -196,7 +196,7 @@ function sha_256($bytes)
     return $hash;
 }
 
-$filePath = $argv[1] ?? '';
+$filePath = trim($argv[1] ?? '');
 
 if ($filePath && !file_exists($filePath)) {
     print ("Failas neegzistuoja!\n");
@@ -204,7 +204,7 @@ if ($filePath && !file_exists($filePath)) {
 }
 
 while (!$filePath) {
-    $filePath = readline("Įveskite failo pavadinimą: ");
+    $filePath = trim(readline("Įveskite failo pavadinimą: "));
 
     if (!file_exists($filePath)) {
         print ("Failas neegzistuoja!\n");
