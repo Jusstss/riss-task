@@ -198,10 +198,6 @@ function sha_256($bytes)
 
 $filePath = trim($argv[1] ?? '');
 
-$maxSize = 100 * 1024 * 1024; // 100MB limit
-
-
-
 if ($filePath && !file_exists($filePath)) {
     print ("Failas neegzistuoja!\n");
     $filePath = '';
