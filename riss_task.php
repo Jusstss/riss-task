@@ -57,7 +57,7 @@ function sha_256($bytes)
     // Pridedam 0x80 = 0b10000000
     $bytes[] = 0x80;
 
-    // Toliau dedam nulius kol masyvo dydis bus = 56
+    // Toliau dedam nulius kol masyvo ilgio liekanos dydis bus = 56 t.y kol liks 8 iki 64, kur yra saugomas orginalus failo dydis
     while ((count($bytes) % 64) != 56) {
         // echo count($bytes) . " % " . "64 = " . (count($bytes) % 64) . "\n";
         $bytes[] = 0x00;
