@@ -198,10 +198,16 @@ function sha_256($bytes)
 
 $filePath = trim($argv[1] ?? '');
 
+$maxSize = 100 * 1024 * 1024; // 100MB limit
+
+
+
 if ($filePath && !file_exists($filePath)) {
     print ("Failas neegzistuoja!\n");
     $filePath = '';
 }
+
+
 
 while (!$filePath) {
     $filePath = trim(readline("Įveskite failo pavadinimą: "));
@@ -210,6 +216,15 @@ while (!$filePath) {
         print ("Failas neegzistuoja!\n");
         $filePath = '';
     }
+}
+
+
+$maxSize = 8 * 1024 * 1024;
+
+if (filesize($filePath) > $maxSize) {
+    $sizeMB = round(filesize($filePath) / 1024 / 1024, 2);
+    print("Failas per didelis! ({$sizeMB}MB) Maksimalus dydis: 8MB\n");
+    exit(1);
 }
 
 $byteArray = process_file($filePath);
